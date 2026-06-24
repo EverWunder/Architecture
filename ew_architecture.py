@@ -24,6 +24,9 @@ Roadmap (deferred, P2): split into a package --
     ew/tests    (pytest; see test_ew_architecture.py)
 
 Maps to *Games Agents Play - The Egret & the Rishi* (v4.4).
+
+Global naming pass: `AgentCaste` renamed to `AgentType`; identity field
+`caste` renamed to `agent_type` to avoid culturally loaded terminology.
 """
 from __future__ import annotations
 
@@ -54,7 +57,7 @@ class ReasonCode(Enum):
     CHAOTIC_IRREVERSIBLE_BLOCKED = "chaotic_irreversible_blocked"
 
 
-class AgentCaste(Enum):
+class AgentType(Enum):
     REGULAR = "regular"
     RECURRING = "recurring"
     CROSSOVER = "crossover"
@@ -92,7 +95,7 @@ def sha256_hex(data: bytes) -> Sha256Hex:
 class AgentID:
     """Sovereign Identity (SID); anchored in regulation first (Arnauld)."""
     sid: str
-    caste: AgentCaste = AgentCaste.RECURRING
+    agent_type: AgentType = AgentType.RECURRING
     attested: bool = False
 
 
@@ -441,7 +444,7 @@ def _self_test() -> None:
     _check(Preflight(1.0, 5.0, 0.0).policy().plan_horizon == 20, "r2==1 full base")
 
     chain = ReceiptChain(signer=HmacSigner(b"dev-only"))
-    agent = AgentID("sid:agent:demo", AgentCaste.RECURRING, attested=True)
+    agent = AgentID("sid:agent:demo", agent_type=AgentType.RECURRING, attested=True)
     ghost = AgentID("sid:agent:ghost", attested=False)
     ih, eh = sha256_hex(b"inputs"), sha256_hex(b"env")
 
